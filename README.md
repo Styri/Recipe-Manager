@@ -16,7 +16,6 @@ This is a full-stack recipe manager application that allows users to add, update
     - [Windows](#windows-1)
     - [macOS](#macos-1)
     - [Linux](#linux-1)
-  - [Important Note](#important-note)
   - [Installation](#installation)
 - [Logger](#logger)
 - [Usage](#usage)
