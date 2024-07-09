@@ -177,7 +177,7 @@ The application uses a logger to keep track of various events and errors. Here's
      exit
      ```
 
-[!Important Note]
+[!IMPORTANTNOTE]
 
 >**Remember to securely store your PostgreSQL password**: The password you set during the PostgreSQL installation is crucial for connecting to your database. Ensure that you store this password securely, as you will need it to configure the application properly and for future database access.
 
