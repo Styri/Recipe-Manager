@@ -45,7 +45,7 @@ async function displayRecipes(recipeData = null) { // Handles null default value
             const favoriteButton = document.createElement("button");
             const favoriteButtonIcon = document.createElement("span");
             favoriteButtonIcon.className = "material-symbols-outlined";
-            favoriteButtonIcon.textContent = "bookmark_star";
+            favoriteButtonIcon.textContent = "favorite";
             favoriteButton.className = "favorite-button";
             favoriteButton.dataset.id = recipe.recipe_id;
             favoriteButton.addEventListener("click", async () => {
@@ -59,7 +59,6 @@ async function displayRecipes(recipeData = null) { // Handles null default value
             deleteButtonIcon.className = "material-symbols-outlined";
             deleteButtonIcon.textContent = "delete";
             deleteButton.className = "delete-button";
-            deleteButton.textContent = "Delete";
             deleteButton.addEventListener("click", async () => {
                 await deleteRecipe(recipe.recipe_id);
                 displayRecipes();
@@ -70,7 +69,6 @@ async function displayRecipes(recipeData = null) { // Handles null default value
             updateDescriptionIcon.className = "material-symbols-outlined";
             updateDescriptionIcon.textContent = "edit";
             updateDescriptionButton.className = "update-description-button";
-            updateDescriptionButton.textContent = "Edit Description";
             updateDescriptionButton.addEventListener("click", () => {
                 promptUpdateDescription(recipe.recipe_id);
             });
@@ -95,10 +93,10 @@ async function displayRecipes(recipeData = null) { // Handles null default value
 function updateFavoriteButton(button, isFavorited) {
     if (isFavorited) {
         button.classList.add("favorited");
-        button.textContent = "Unfavorite";
+        button.classList.remove("not-favorited");
     } else {
         button.classList.remove("favorited");
-        button.textContent = "Favorite";
+        button.classList.add("not-favorited");
     }
 }
 
