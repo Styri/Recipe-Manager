@@ -5,7 +5,19 @@ const dbUser = process.env.DB_USER;
 const dbHost = process.env.DB_HOST;
 const dbPort = process.env.DB_PORT;
 const dbName = process.env.DB_NAME;
-const dbPass = process.env.DB_PASS;
+const dbPass = process.enav.DB_PASS;
+
+if (!dbUser || !dbHost || !dbPort || !dbName || !dbPass) {
+    console.error('Missing one or more database configuration variables.');
+    process.exit(1);
+  }
+  
+  console.log('Database configuration:');
+  console.log(`DB_USER: ${dbUser}`);
+  console.log(`DB_HOST: ${dbHost}`);
+  console.log(`DB_PORT: ${dbPort}`);
+  console.log(`DB_NAME: ${dbName}`);
+  console.log(`DB_PASS: ${typeof dbPass}`);
 
 async function createDatabase() {
   try {
