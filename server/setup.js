@@ -5,7 +5,7 @@ const dbUser = process.env.DB_USER;
 const dbHost = process.env.DB_HOST;
 const dbPort = process.env.DB_PORT;
 const dbName = process.env.DB_NAME;
-const dbPass = process.enav.DB_PASS;
+const dbPass = process.env.DB_PASSWORD;
 
 if (!dbUser || !dbHost || !dbPort || !dbName || !dbPass) {
     console.error('Missing one or more database configuration variables.');
