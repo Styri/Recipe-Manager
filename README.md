@@ -1,6 +1,6 @@
 # Recipe Manager
 
-This is a full-stack recipe manager application that allows users to add, update, delete, search for recipes, mark recipes as favorites, and generate a report of recipes.
+This is a full-stack recipe manager application that allows users to add, update, delete, search for recipes, mark recipes as favorites, and generate a report of recipe stats.
 
 ## Features
 
@@ -9,7 +9,7 @@ This is a full-stack recipe manager application that allows users to add, update
 - Delete recipes.
 - Mark recipes as favorites.
 - Search for recipes by name, description, or category.
-- Generate a report of all recipes, showing totals and favorites.
+- Generate a report of total number of recipes and favorites/non-favorites.
 
 ## Technologies Used
 
@@ -226,7 +226,7 @@ The application uses a logger to keep track of various events and errors. Here's
 
 ### Generating a Recipe Report
 
-1. Click the "Generate Recipe Report" button to see the total number of recipes and favorites.
+1. Click the "Generate Recipe Report" button to see the total number of recipes and favorites/non-favorites.
 
 ## Contributing
 
