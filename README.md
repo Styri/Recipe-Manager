@@ -213,7 +213,7 @@ The application uses a logger to keep track of various events and errors. Here's
     ```bash
     npm run setup
     ```
-   > [!NOTE] 
+   > [!NOTE]
    > The setup.js file will create a new database with the name you added in the DB_NAME variable in the .env file and a new table called recipes.
 
 5. **Run the server:**
