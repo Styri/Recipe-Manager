@@ -2,6 +2,33 @@
 
 This is a full-stack recipe manager application that allows users to add, update, delete, search for recipes, mark recipes as favorites, and generate a report of recipe stats.
 
+## Table of Contents
+
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installing Node.js](#installing-nodejs)
+    - [Windows](#windows)
+    - [macOS](#macos)
+    - [Linux](#linux)
+  - [Installing PostgreSQL](#installing-postgresql)
+    - [Windows](#windows-1)
+    - [macOS](#macos-1)
+    - [Linux](#linux-1)
+  - [Important Note](#important-note)
+  - [Installation](#installation)
+- [Logger](#logger)
+- [Usage](#usage)
+  - [Adding a Recipe](#adding-a-recipe)
+  - [Updating a Recipe](#updating-a-recipe)
+  - [Deleting a Recipe](#deleting-a-recipe)
+  - [Marking a Recipe as Favorite](#marking-a-recipe-as-favorite)
+  - [Searching for Recipes](#searching-for-recipes)
+  - [Generating a Recipe Report](#generating-a-recipe-report)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Features
 
 - Add new recipes with name, description, and category.
