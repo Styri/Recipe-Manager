@@ -221,7 +221,7 @@ The application uses a logger to keep track of various events and errors. Here's
 5. **Run the server:**
 
     ```bash
-    node index.js
+    npm start
     ```
 
 6. **Open the application:**
