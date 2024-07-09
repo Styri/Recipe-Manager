@@ -163,9 +163,9 @@ The application uses a logger to keep track of various events and errors. Here's
     cd recipe-manager
     ```
 
-2. **Set up environment variables:**
+2. **Set up environmental variables:**
 
-    - Create an `.env` file in the `server/config` directory and add the necessary environment variables.
+    - Create an `.env` file in the `server/config` directory and add the necessary environmental variables.
     - Example:
 
     ```
