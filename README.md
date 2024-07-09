@@ -231,21 +231,21 @@ The application uses a logger to keep track of various events and errors. Here's
 
 ### Adding a Recipe
 
-1. Fill in the recipe name, description, and category.
-2. Click "Add Recipe".
+1. Fill in the recipe name, description, and select a category.
+2. Click the "+" icon.
 
 ### Updating a Recipe
 
-1. Click the "Edit Description" button next to the recipe you want to update.
-2. Enter the new description and click "Update".
+1. Click the button with the "edit" icon next to the recipe you want to update.
+2. Enter the new description on the modal that appears and click "Update".
 
 ### Deleting a Recipe
 
-1. Click the "Delete" button next to the recipe you want to delete.
+1. Click the button with the "delete" icon next to the recipe you want to delete.
 
 ### Marking a Recipe as Favorite
 
-1. Click the "Favorite" button next to the recipe you want to mark as favorite.
+1. Click the button with the "favorite" icon next to the recipe you want to mark as favorite.
 
 ### Searching for Recipes
 
