@@ -1,0 +1,19 @@
+# Node modules
+node_modules/
+
+# Environment variables
+server/config/.env
+
+# Logs
+server/logs/
+*.log
+
+# Compiled CSS
+*.css.map
+
+# Temporary files
+*.tmp
+*.swp
+
+# VS Code settings
+.vscode/
