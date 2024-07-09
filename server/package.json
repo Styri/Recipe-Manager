@@ -12,7 +12,8 @@
   "description": "A simple recipe manager application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "setup": "node setup.js"
   },
   "author": "Stelios Tiantsis",
   "license": "ISC"
