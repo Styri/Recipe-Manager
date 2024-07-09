@@ -1,24 +1,38 @@
 // server/setup.js
 const { execSync } = require('child_process');
+const prompt = require('prompt-sync')();
 const { Pool } = require('pg');
 require('dotenv').config({ path: './config/.env' });
 
+const dbUser = process.env.DB_USER;
+const dbHost = process.env.DB_HOST;
+const dbPort = process.env.DB_PORT;
+const dbName = process.env.DB_NAME;
+const dbPass = prompt('Enter your PostgreSQL password: ', { echo: '*' });
+
 const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
+  host: dbHost,
+  port: dbPort,
+  user: dbUser,
+  password: dbPass,
+  database: dbName,
 });
 
 async function createDatabase() {
   try {
     console.log('Creating database...');
-    await pool.query(`CREATE DATABASE ${process.env.DB_NAME}`);
-    console.log(`Database ${process.env.DB_NAME} created successfully`);
+    const client = new Pool({
+      host: dbHost,
+      port: dbPort,
+      user: dbUser,
+      password: dbPass,
+    });
+    await client.query(`CREATE DATABASE ${dbName}`);
+    console.log(`Database ${dbName} created successfully`);
+    await client.end();
   } catch (error) {
     if (error.code === '42P04') {
-      console.log(`Database ${process.env.DB_NAME} already exists`);
+      console.log(`Database ${dbName} already exists`);
     } else {
       console.error('Error creating database:', error);
       process.exit(1);
