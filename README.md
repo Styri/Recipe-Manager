@@ -232,7 +232,7 @@ The application uses a logger to keep track of various events and errors. Here's
 ### Adding a Recipe
 
 1. Fill in the recipe name, description, and select a category.
-2. Click the "+" icon.
+2. Click the button with the "add" icon.
 
 ### Updating a Recipe
 
