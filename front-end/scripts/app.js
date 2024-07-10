@@ -1,5 +1,7 @@
 // Empty array to initialize the recipe list.
 let recipes = [];
+let currentPage = 1;
+const limit = 8;
 
 // The following function adds a new recipe to the database with a unique ID, name, description, category
 // and default value for favorite (false).
@@ -22,12 +24,12 @@ async function addRecipe(name, description, category) {
 }
 
 // The following function gets the recipes from the database and displays them.
-async function displayRecipes(recipeData = null) { // Handles null default value.
+async function displayRecipes(recipeData = null, page = 1) { // Handles null default value.
     const recipeList = document.getElementById("recipeList");
     recipeList.innerHTML = "";
     try {
-        if (!recipeData) { // Only fetches the data if recipeData is null
-            const response = await axios.get("http://localhost:3000/recipes/");
+        if (!recipeData) { 
+            const response = await axios.get(`http://localhost:3000/recipes?page=${page}&limit=${limit}`);
             if (response.status !== 200) {
                 console.error("Error fetching data:", response.statusText);
                 return;
@@ -82,6 +84,8 @@ async function displayRecipes(recipeData = null) { // Handles null default value
             recipeItem.appendChild(updateDescriptionButton);
             recipeList.appendChild(recipeItem);
         });
+
+        paginationControls(page, recipeData.length < limit);
     } catch (error) {
         console.error("Error viewing recipe:", error.response.data || error.message);
 		showAlert("An error occurred while viewing the recipes. Please try again.");
@@ -184,25 +188,22 @@ function promptUpdateDescription(id) {
 //(total amount, total amount of favorite recipes, total amount of not favorite recipes)
 async function generateRecipeReport() {
     try {
-        const response = await axios.get("http://localhost:3000/recipes");
+        const response = await axios.get("http://localhost:3000/recipes/stats");
         if (response.status === 200) {
-            const recipes = response.data;
-            const totalRecipes = recipes.length;
-            const favoriteRecipes = recipes.filter(recipe => recipe.favorite).length;
-            const notFavoriteRecipes = totalRecipes - favoriteRecipes;
+            const { total, favorite, nonFavorite } = response.data;
             const reportDiv = document.getElementById("recipeReport");
             reportDiv.innerHTML = "";
             
             const totalRecipesPara = document.createElement("p");
-            totalRecipesPara.textContent = `Total recipes: ${totalRecipes}`;
+            totalRecipesPara.textContent = `Total recipes: ${total}`;
             reportDiv.appendChild(totalRecipesPara);
 
             const favoriteRecipesPara = document.createElement("p");
-            favoriteRecipesPara.textContent = `Number of favorite recipes: ${favoriteRecipes}`;
+            favoriteRecipesPara.textContent = `Number of favorite recipes: ${favorite}`;
             reportDiv.appendChild(favoriteRecipesPara);
 
             const notFavoriteRecipesPara = document.createElement("p");
-            notFavoriteRecipesPara.textContent = `Number of recipes not marked as favorites: ${notFavoriteRecipes}`;
+            notFavoriteRecipesPara.textContent = `Number of recipes not marked as favorites: ${nonFavorite}`;
             reportDiv.appendChild(notFavoriteRecipesPara);
         } else {
             console.error("Error fetching data:", response.statusText);
@@ -238,63 +239,6 @@ async function searchRecipes(term) {
         return [];
     }
 }
-
-// Event listener for adding a new recipe.
-document.getElementById("addRecipeButton").addEventListener("click", () => {
-    const recipeName = document.getElementById("rcpName").value.trim();
-    const recipeDescription = document.getElementById("rcpDescription").value.trim();
-    const recipeCategory = document.getElementById("rcpCategory").value;
-    const errorMessage = document.getElementById("name-descriptionErrorMessage");
-
-    if (!recipeName || !recipeDescription) {
-        errorMessage.style.display = "block";
-    } else {
-        errorMessage.style.display = "none";
-        addRecipe(recipeName, recipeDescription, recipeCategory);
-        recipeName.value = "";
-        recipeDescription.value = "";
-        recipeCategory.value = "Breakfast";
-    }
-});
-
-// Event listener for displaying all the recipes.
-document.getElementById("showAll").addEventListener("click", async () => {
-    await displayRecipes();
-});
-
-// Event listener for displaying all the favorite recipes.
-document.getElementById("showFavorites").addEventListener("click", async () => {
-    const favoriteRecipes = await filterFavoriteRecipes();
-    await displayRecipes(favoriteRecipes);
-});
-
-// Event listener for generating a report of the recipes and showing it/hiding it based on its visibility.
-document.getElementById("recipeReporter").addEventListener("click", async () => {
-    const reportDiv = document.getElementById("recipeReport");
-    if (reportDiv.style.display === "none" || !reportDiv.innerHTML) {
-        await generateRecipeReport();
-        reportDiv.style.display = "block";
-    } else {
-        reportDiv.style.display = "none";
-    }
-});
-
-// Event listener for sorting the recipes by their category alphabetically (Descending).
-document.getElementById("sortByCategory").addEventListener("click", async () => {
-    await sortRecipesByCategory();
-});
-
-// Event listener for searching functionality
-document.getElementById("searchInput").addEventListener("input", async () => {
-    const recipeSearchInput = document.getElementById("searchInput");
-    const recipeSearch = recipeSearchInput.value.trim();
-    if (recipeSearch.length > 0) {
-        const searchResult = await searchRecipes(recipeSearch);
-        displayRecipes(searchResult);
-    } else {
-        displayRecipes();
-    }
-});
 
 // Getters for the modal elements
 const modal = document.getElementById("updateDescriptionModal");
@@ -352,6 +296,96 @@ function showAlert(message) {
         alertDiv.style.display = "none";
     }, 6000);
 }
+
+//The following function changes the current page based on the direction parameter (-1 or 1).
+function changePage(direction) {
+    currentPage += direction;
+    displayRecipes(null, currentPage);
+}
+
+//The following function dynamically adjusts the page number and shows/hides the next and previous butttons
+//based on the first/last page.
+function paginationControls(page, isLastPage) {
+    const pageNumber = document.getElementById("pageNumber");
+    pageNumber.textContent = `Page ${page}`;
+
+    const previousPage = document.getElementById("previousPage");
+    const nextPage = document.getElementById("nextPage");
+
+    if (page === 1) {
+        previousPage.style.display = "none";
+    } else {
+        previousPage.style.display = "inline-block";
+    } 
+
+    if (isLastPage) {
+        nextPage.style.display = "none";
+    } else {
+        nextPage.style.display = "inline-block";        
+    }
+}
+
+//EVENT LISTENERS
+// Event listener for adding a new recipe.
+document.getElementById("addRecipeButton").addEventListener("click", () => {
+    const recipeName = document.getElementById("rcpName").value.trim();
+    const recipeDescription = document.getElementById("rcpDescription").value.trim();
+    const recipeCategory = document.getElementById("rcpCategory").value;
+    const errorMessage = document.getElementById("name-descriptionErrorMessage");
+
+    if (!recipeName || !recipeDescription) {
+        errorMessage.style.display = "block";
+    } else {
+        errorMessage.style.display = "none";
+        addRecipe(recipeName, recipeDescription, recipeCategory);
+        recipeName.value = "";
+        recipeDescription.value = "";
+        recipeCategory.value = "Breakfast";
+    }
+});
+
+// Event listener for displaying all the recipes.
+document.getElementById("showAll").addEventListener("click", async () => {
+    await displayRecipes();
+});
+
+// Event listener for displaying all the favorite recipes.
+document.getElementById("showFavorites").addEventListener("click", async () => {
+    const favoriteRecipes = await filterFavoriteRecipes();
+    await displayRecipes(favoriteRecipes);
+});
+
+// Event listener for generating a report of the recipes and showing it/hiding it based on its visibility.
+document.getElementById("recipeReporter").addEventListener("click", async () => {
+    const reportDiv = document.getElementById("recipeReport");
+    if (reportDiv.style.display === "none" || !reportDiv.innerHTML) {
+        await generateRecipeReport();
+        reportDiv.style.display = "block";
+    } else {
+        reportDiv.style.display = "none";
+    }
+});
+
+// Event listener for sorting the recipes by their category alphabetically (descending).
+document.getElementById("sortByCategory").addEventListener("click", async () => {
+    await sortRecipesByCategory();
+});
+
+// Event listener for searching functionality
+document.getElementById("searchInput").addEventListener("input", async () => {
+    const recipeSearchInput = document.getElementById("searchInput");
+    const recipeSearch = recipeSearchInput.value.trim();
+    if (recipeSearch.length > 0) {
+        const searchResult = await searchRecipes(recipeSearch);
+        displayRecipes(searchResult);
+    } else {
+        displayRecipes();
+    }
+});
+
+//Even listeners for the pagination controls
+document.getElementById("previousPage").addEventListener("click", () => changePage(-1));
+document.getElementById("nextPage").addEventListener("click", () => changePage(1));
 
 // Initial display of recipes
 displayRecipes();
