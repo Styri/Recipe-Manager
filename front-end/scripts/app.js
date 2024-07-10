@@ -1,7 +1,7 @@
 // Empty array to initialize the recipe list.
 let recipes = [];
 
-// The following function adds a new recipe as an object to the database with a unique ID, name, description, category
+// The following function adds a new recipe to the database with a unique ID, name, description, category
 // and default value for favorite (false).
 async function addRecipe(name, description, category) {
     try {
@@ -37,7 +37,7 @@ async function displayRecipes(recipeData = null) { // Handles null default value
 
         recipes = recipeData;
 
-        recipeData.forEach(recipe => { // Use the passed recipeData
+        recipeData.forEach(recipe => { 
             const recipeItem = document.createElement("li");
             const recipeDetails = document.createElement("span");
             recipeDetails.textContent = `${recipe.name} - ${recipe.description} - ${recipe.category}`;
@@ -214,7 +214,7 @@ async function generateRecipeReport() {
     }
 }
 
-// The following function returns a new array containing only the recipes
+// The following function returns a new array containing only the recipe(s)
 // where the name, description or category includes the search term
 async function searchRecipes(term) {
     const termLowerCase = term.toLowerCase();

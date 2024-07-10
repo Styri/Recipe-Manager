@@ -50,7 +50,7 @@ The application uses a logger to keep track of various events and errors. Here's
   - Server start
   - Recipe creation
   - Recipe favorite/unfavorite toggle
-  - Recipe update
+  - Recipe description update
   - Recipe deletion
   - Error events
 
