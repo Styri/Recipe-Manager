@@ -32,13 +32,8 @@ const getAllRecipes = async (req, res) => {
 };
 
 const getFavoriteRecipes = async (req, res) => {
-  const { page = 1 } = req.query;
-  const limit = 8;
-  const offset = (page - 1) * limit;
-
   try {
-    const favoriteRecipes = await pool.query("SELECT * FROM recipes WHERE favorite = TRUE ORDER BY recipe_id LIMIT $1 OFFSET $2",
-      [limit, offset]);
+    const favoriteRecipes = await pool.query("SELECT * FROM recipes WHERE favorite = TRUE ORDER BY recipe_id");
     res.json(favoriteRecipes.rows);
   } catch (error) {
     logger.error(`Error fetching favorite recipes: ${error.message}`);
@@ -75,14 +70,8 @@ const deleteRecipe = async (req, res) => {
 };
 
 const sortRecipesByCategory = async (req, res) => {
-  const { page = 1 } = req.query;
-  const limit = 8;
-  const offset = (page - 1) * limit;
-
   try {
-    const sortedRecipes = await pool.query("SELECT * FROM recipes ORDER BY category LIMIT $1 OFFSET $2",
-      [limit, offset]
-    );
+    const sortedRecipes = await pool.query("SELECT * FROM recipes ORDER BY category");
     res.json(sortedRecipes.rows);
   } catch (error) {
     logger.error(`Error sorting recipes: ${error.message}`);
@@ -120,14 +109,12 @@ const getRecipeStats = async (req, res) => {
 };
 
 const searchRecipes = async (req, res) => {
-  const { name = "", description = "", category = "", page = 1 } = req.query;
-  const limit = 8;
-  const offset = (page - 1) * limit;
+  const { name = "", description = "", category = ""} = req.query;
 
   try {
     const searchResults = await pool.query(
-      "SELECT * FROM recipes WHERE name ILIKE $1 OR description ILIKE $2 OR category ILIKE $3 ORDER BY recipe_id LIMIT $4 OFFSET $5",
-      [`%${name}%`, `%${description}%`, `%${category}%`, limit, offset]
+      "SELECT * FROM recipes WHERE name ILIKE $1 OR description ILIKE $2 OR category ILIKE $3 ORDER BY recipe_id",
+      [`%${name}%`, `%${description}%`, `%${category}%`]
     );
     res.json(searchResults.rows);
   } catch (error) {
