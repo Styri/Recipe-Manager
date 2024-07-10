@@ -43,9 +43,9 @@ async function createDatabase() {
   }
 }
 
-async function createTables() {
+async function createTable() {
   try {
-    console.log('Creating tables...');
+    console.log('Creating table...');
     const pool = new Pool({
       host: dbHost,
       port: dbPort,
@@ -63,17 +63,17 @@ async function createTables() {
       );
     `;
     await pool.query(setupSQL);
-    console.log('Tables created successfully');
+    console.log('Table created successfully');
     await pool.end();
   } catch (error) {
-    console.error('Error creating tables:', error);
+    console.error('Error creating table:', error);
     process.exit(1);
   }
 }
 
 async function runMigrations() {
   await createDatabase();
-  await createTables();
+  await createTable();
 }
 
 runMigrations();
