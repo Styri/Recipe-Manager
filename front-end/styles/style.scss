@@ -135,6 +135,11 @@ button span {
   }
 }
 
+.paginationButtons {
+  padding: 10px 15px;
+  @include button-styles(#24788f, $color-hover);
+}
+
 .recipe-list ul {
   list-style-type: none;
   padding: 0;
@@ -154,7 +159,6 @@ button span {
     margin-right: auto;
     font-weight: bold;
   }
-
   button {
     float: right;
     @include flex-center;

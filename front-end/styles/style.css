@@ -122,6 +122,19 @@ button span {
   background-color: #0e47b7;
 }
 
+.paginationButtons {
+  padding: 10px 15px;
+  background-color: #24788f;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.35s ease;
+}
+.paginationButtons:hover {
+  background-color: #0e47b7;
+}
+
 .recipe-list ul {
   list-style-type: none;
   padding: 0;
