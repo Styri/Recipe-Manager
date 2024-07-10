@@ -1,5 +1,7 @@
 // Empty array to initialize the recipe list.
 let recipes = [];
+
+//Pagination variables
 let currentPage = 1;
 const limit = 8;
 
